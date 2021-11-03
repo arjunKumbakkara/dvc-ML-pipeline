@@ -1,0 +1,16 @@
+.ropeproject
+
+
+/site
+
+
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+
+
+.pyre/
+
+.vscode/
+.idea/
