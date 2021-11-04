@@ -4,14 +4,17 @@ stages:
     cmd: python src/stage_01_load_save.py --config=config/config.yaml
     deps:
     - path: config/config.yaml
-      md5: 1df8bf783d8368bf0dd59e527a4e791c
-      size: 328
+      md5: 55f19963fac70cf8ea1a51e9a9c0ed68
+      size: 377
+    - path: rough/test.txt
+      md5: b9fc2b32ea0983b2c0627183a1559300
+      size: 15
     - path: src/stage_01_load_save.py
       md5: a0e84e140a441d911f47730b595268e0
       size: 1177
     - path: src/utils/all_utils.py
-      md5: b0aaf99a85b7f9ad45cb19f0809b7fa8
-      size: 488
+      md5: 22b05f3c29ceb80c0dd1008b7af03501
+      size: 713
     outs:
     - path: artifacts/raw_local_dir/data.csv
       md5: 7d814a1bda02145efe703f4e1c01847a
@@ -29,15 +32,18 @@ stages:
   split_data:
     cmd: python src/stage_02_split_data.py --config=config/config.yaml --params=params.yaml
     deps:
+    - path: artifacts/raw_local_dir/data.csv
+      md5: 7d814a1bda02145efe703f4e1c01847a
+      size: 91999
     - path: config/config.yaml
-      md5: 1df8bf783d8368bf0dd59e527a4e791c
-      size: 328
+      md5: 55f19963fac70cf8ea1a51e9a9c0ed68
+      size: 377
     - path: src/stage_02_split_data.py
       md5: f42ec6b9529004c9025c7d359024a4f1
       size: 1834
     - path: src/utils/all_utils.py
-      md5: b0aaf99a85b7f9ad45cb19f0809b7fa8
-      size: 488
+      md5: 22b05f3c29ceb80c0dd1008b7af03501
+      size: 713
     params:
       params.yaml:
         base.random_state: 42
@@ -62,14 +68,14 @@ stages:
       md5: e683c1d146b604dc7ac3a46cfcc079c4
       size: 64363
     - path: config/config.yaml
-      md5: 1df8bf783d8368bf0dd59e527a4e791c
-      size: 328
+      md5: 55f19963fac70cf8ea1a51e9a9c0ed68
+      size: 377
     - path: src/stage_03_train.py
-      md5: 6c4b1bf1025afb5327148ecadce9bd05
-      size: 1819
+      md5: 37562cfb10e5015f65beb8fe7fbc9cd1
+      size: 1822
     - path: src/utils/all_utils.py
-      md5: b0aaf99a85b7f9ad45cb19f0809b7fa8
-      size: 488
+      md5: 22b05f3c29ceb80c0dd1008b7af03501
+      size: 713
     params:
       params.yaml:
         base.random_state: 42
@@ -78,5 +84,28 @@ stages:
         model_params.ElasticNet.l1_ratio: 0.5
     outs:
     - path: artifacts/model_dir/ElasticNet.model
-      md5: 10a67810db06189f2374bdc5ee6984e6
-      size: 1316
+      md5: b20dedcc400a1800dbb5f7abcbda6477
+      size: 1198
+  evaluate:
+    cmd: python src/stage_04_evaluate.py --config=config/config.yaml --params=params.yaml
+    deps:
+    - path: artifacts/model_dir/ElasticNet.model
+      md5: b20dedcc400a1800dbb5f7abcbda6477
+      size: 1198
+    - path: artifacts/split_data_dir/test.csv
+      md5: 2234775402fc50bcee60bfbfd1cfb1d5
+      size: 27782
+    - path: config/config.yaml
+      md5: 55f19963fac70cf8ea1a51e9a9c0ed68
+      size: 377
+    - path: src/stage_04_evaluate.py
+      md5: 3c7e0b1a88f24bb663921bfbd9102b26
+      size: 2977
+    - path: src/utils/all_utils.py
+      md5: 22b05f3c29ceb80c0dd1008b7af03501
+      size: 713
+    outs:
+    - path: artifacts/reports_dir/
+      md5: 55216fed055a241ff9aedac7a29a081b.dir
+      size: 232
+      nfiles: 4

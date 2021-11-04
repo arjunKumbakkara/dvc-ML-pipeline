@@ -52,5 +52,24 @@ stages:
 
 
 
+  evaluate:
+    cmd: python src/stage_04_evaluate.py --config=config/config.yaml --params=params.yaml
+    deps:
+      - src/stage_04_evaluate.py
+      - src/utils/all_utils.py
+      - config/config.yaml
+      #- params.yaml   (We either mention the yaml file here or the params seperately below in the params section)
+      - artifacts/split_data_dir/test.csv
+      - artifacts/model_dir/ElasticNet.model
+      
+  #Commenting params.yaml because we did not use it this time.All in Config yaml only
+  #  params:
+   #   - base.random_state
+    #  - base.test_size
+    outs:
+      - artifacts/reports_dir/
+
+
+
 #DVC DAG : DVC relations are extracted from  "outs"--> "deps"
 #So , outs to deps will establish the connections.

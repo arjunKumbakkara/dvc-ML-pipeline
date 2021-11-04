@@ -24,7 +24,7 @@ def train(config_path,params_path):
     train_data = pd.read_csv(train_data_path)
 
 
-    #Get X and Y Values
+    #Get X and Y Values for the train data
     train_y= train_data["quality"] 
     train_x= train_data.drop("quality",axis=1)
 
@@ -32,10 +32,6 @@ def train(config_path,params_path):
     alpha= params["model_params"]["ElasticNet"]["alpha"]
     l1_ratio= params["model_params"]["ElasticNet"]["l1_ratio"]
     random_state= params["base"]["random_state"]
-    
-        
-
-
 
     lr=ElasticNet(alpha=0.5,l1_ratio=0.5,random_state=42)
     lr.fit(train_x,train_y)
