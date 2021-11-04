@@ -7,4 +7,5 @@ scikit-learn
 #For local packages
 -e . 
 
-#Adding this will make sure the local package src is also installed.ie, the setup.py.This -e . will make sure all of these are installed.
+#Adding this will make sure the local package src is also installed.ie, the setup.py.This -e . will make sure all of these are installed.So if we do
+#pip install -r requirements.txt then it will install the this also and a src.egg-info will get generated.
