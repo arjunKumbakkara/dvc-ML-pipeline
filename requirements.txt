@@ -1,3 +1,10 @@
 dvc
 pandas
 scikit-learn
+
+
+
+#For local packages
+-e . 
+
+#Adding this will make sure the local package src is also installed.ie, the setup.py.This -e . will make sure all of these are installed.
