@@ -13,6 +13,7 @@ stages:
       - src/stage_01_load_save.py
       - src/utils/all_utils.py
       - config/config.yaml
+      - rough/test.txt
     outs:
       - artifacts/raw_local_dir/data.csv
 
@@ -23,6 +24,7 @@ stages:
       - src/stage_02_split_data.py
       - src/utils/all_utils.py
       - config/config.yaml
+      - artifacts/raw_local_dir/data.csv
       #- params.yaml   (We either mention the yaml file here or the params seperately below in the params section)
     params:
       - base.random_state
@@ -30,3 +32,25 @@ stages:
     outs:
       - artifacts/split_data_dir/test.csv
       - artifacts/split_data_dir/train.csv
+
+  train:
+    cmd: python src/stage_03_train.py --config=config/config.yaml --params=params.yaml
+    deps:
+      - src/stage_03_train.py
+      - src/utils/all_utils.py
+      - config/config.yaml
+      #- params.yaml   (We either mention the yaml file here or the params seperately below in the params section)
+      - artifacts/split_data_dir/train.csv
+
+    params:
+      - base.random_state
+      - base.test_size
+      - model_params.ElasticNet.l1_ratio
+      - model_params.ElasticNet.alpha
+    outs:
+      - artifacts/model_dir/ElasticNet.model
+
+
+
+#DVC DAG : DVC relations are extracted from  "outs"--> "deps"
+#So , outs to deps will establish the connections.
