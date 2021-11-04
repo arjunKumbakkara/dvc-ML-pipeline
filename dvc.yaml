@@ -1,4 +1,12 @@
 stages:
+  validation:
+    #If you want some stage to run always Add No dependencies basically .Like a validation layer which checks everything in the pipeline.
+    cmd: python rough/test.py
+    #deps:
+    #  - rough/test.py
+    outs:
+      - rough/test.txt
+  
   load_data:
     cmd: python src/stage_01_load_save.py --config=config/config.yaml
     deps:
@@ -7,3 +15,18 @@ stages:
       - config/config.yaml
     outs:
       - artifacts/raw_local_dir/data.csv
+
+
+  split_data:
+    cmd: python src/stage_02_split_data.py --config=config/config.yaml --params=params.yaml
+    deps:
+      - src/stage_02_split_data.py
+      - src/utils/all_utils.py
+      - config/config.yaml
+      #- params.yaml   (We either mention the yaml file here or the params seperately below in the params section)
+    params:
+      - base.random_state
+      - base.test_size
+    outs:
+      - artifacts/split_data_dir/test.csv
+      - artifacts/split_data_dir/train.csv

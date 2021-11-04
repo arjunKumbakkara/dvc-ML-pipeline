@@ -1,4 +1,3 @@
-from pandas.io.pytables import AttributeConflictWarning
 from src.utils.all_utils import create_directory, read_yaml
 import argparse
 import pandas as pd
